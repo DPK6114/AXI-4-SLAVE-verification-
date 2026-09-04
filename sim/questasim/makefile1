@@ -1,0 +1,131 @@
+# ============================================================
+# AXI UVM Verification Environment
+# QuestaSim 10.7c - Windows Questa from WSL
+# ============================================================
+
+
+# ============================================================
+# QuestaSim installation
+# ============================================================
+
+QUESTA = /mnt/c/questasim64_10.7c/win64
+
+
+# ============================================================
+# QuestaSim executables
+# ============================================================
+
+VLIB = $(QUESTA)/vlib.exe
+VMAP = $(QUESTA)/vmap.exe
+VLOG = $(QUESTA)/vlog.exe
+VSIM = $(QUESTA)/vsim.exe
+
+
+# ============================================================
+# Simulation configuration
+# ============================================================
+
+TOP  = axi_top
+TEST = axi_test
+
+WORK = work
+
+FILELIST = filelist.f
+
+
+# ============================================================
+# Include directories
+# ============================================================
+
+INCDIRS = \
+	+incdir+../../axi_transaction \
+	+incdir+../../axi_master_agent \
+	+incdir+../../axi_slave_agent \
+	+incdir+../../axi_env \
+	+incdir+../../axi_test
+
+
+# ============================================================
+# Default target
+# ============================================================
+
+all: compile sim
+
+
+# ============================================================
+# Create Questa work library
+# ============================================================
+
+lib:
+	$(VLIB) $(WORK)
+	$(VMAP) $(WORK) $(WORK)
+
+
+# ============================================================
+# Compile
+# ============================================================
+
+compile: lib
+	$(VLOG) -sv $(INCDIRS) -f $(FILELIST)
+
+
+# ============================================================
+# Run simulation - command line mode
+# ============================================================
+
+sim:
+	$(VSIM) -c $(WORK).$(TOP) \
+		+UVM_TESTNAME=$(TEST) \
+		-do "run -all; quit -f"
+
+
+# ============================================================
+# Run simulation - GUI mode
+# ============================================================
+
+gui:
+	$(VSIM) $(WORK).$(TOP) \
+		+UVM_TESTNAME=$(TEST)
+
+
+# ============================================================
+# Compile + GUI simulation
+# ============================================================
+
+debug: compile gui
+
+
+# ============================================================
+# Clean simulation files
+# ============================================================
+
+clean:
+	rm -rf $(WORK)
+	rm -f transcript
+	rm -f vsim.wlf
+
+
+# ============================================================
+# Clean + Compile
+# ============================================================
+
+rebuild: clean compile
+
+
+# ============================================================
+# Help
+# ============================================================
+
+help:
+	@echo ""
+	@echo "AXI UVM QuestaSim Makefile"
+	@echo ""
+	@echo "Targets:"
+	@echo "  make compile    - Compile the AXI UVM environment"
+	@echo "  make sim        - Run simulation in command-line mode"
+	@echo "  make gui        - Run simulation in Questa GUI"
+	@echo "  make debug      - Compile and open Questa GUI"
+	@echo "  make rebuild    - Clean and compile everything"
+	@echo "  make clean      - Remove work library and simulation files"
+	@echo "  make all        - Compile and run simulation"
+	@echo ""
