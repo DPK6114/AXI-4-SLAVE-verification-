@@ -1,122 +1,122 @@
-1. Project Overview
+**1. Project Overview**
 This project implements and verifies a parameterized AMBA AXI4 Slave using SystemVerilog and UVM. The primary objective is to develop a reusable UVM-based verification environment and verify AXI4 read and write transactions, burst transfers, byte strobes, response generation, and AXI VALID/READY handshaking.
 
 
-2. Project Objectives
-•	Implement a parameterized AXI4 Slave RTL.
-•	Develop a reusable SystemVerilog AXI4 interface.
-•	Develop an AXI4 UVM Master Driver.
-•	Generate AXI4 read and write transactions.
-•	Verify AXI4 VALID/READY handshaking.
-•	Verify burst transactions.
-•	Verify INCR burst operation.
-•	Verify different burst lengths and transfer sizes.
-•	Verify WSTRB byte-enable functionality.
-•	Verify write and read responses.
-•	Verify WLAST and RLAST behavior.
-•	Develop a self-checking UVM verification environment.
-•	Debug AXI protocol behavior using QuestaSim waveforms.
+**2. Project Objectives**
+    •	Implement a parameterized AXI4 Slave RTL.
+    •	Develop a reusable SystemVerilog AXI4 interface.
+    •	Develop an AXI4 UVM Master Driver.
+    •	Generate AXI4 read and write transactions.
+    •	Verify AXI4 VALID/READY handshaking.
+    •	Verify burst transactions.
+    •	Verify INCR burst operation.
+    •	Verify different burst lengths and transfer sizes.
+    •	Verify WSTRB byte-enable functionality.
+    •	Verify write and read responses.
+    •	Verify WLAST and RLAST behavior.
+    •	Develop a self-checking UVM verification environment.
+    •	Debug AXI protocol behavior using QuestaSim waveforms.
 
 
-3. AXI4 Architecture
+**3. AXI4 Architecture**
 The AXI4 interface consists of five independent channels:
-•	Write Address Channel — AW
-•	Write Data Channel — W
-•	Write Response Channel — B
-•	Read Address Channel — AR
-•	Read Data Channel — R
+    •	Write Address Channel — AW
+    •	Write Data Channel — W
+    •	Write Response Channel — B
+    •	Read Address Channel — AR
+    •	Read Data Channel — R
 
 A transfer occurs only when both VALID and READY are asserted:
 VALID && READY
 
 
-4. DUT Features
+**4. DUT Features**
 The AXI4 Slave RTL is parameterized to support configurable:
-•	Data width
-•	Address width
-•	ID width
-•	User width
-•	Memory size
-•	Address FIFO depth
-•	Read-address FIFO depth
-Example configuration:
-DATA_WIDTH = 32
-ADDR_WIDTH = 32
-ID_WIDTH   = 4
-USER_WIDTH = 1
-MEM_BYTES  = 64 KB
+    •	Data width
+    •	Address width
+    •	ID width
+    •	User width
+    •	Memory size
+    •	Address FIFO depth
+    •	Read-address FIFO depth
+    Example configuration:
+    DATA_WIDTH = 32
+    ADDR_WIDTH = 32
+    ID_WIDTH   = 4
+    USER_WIDTH = 1
+    MEM_BYTES  = 64 KB
 
 
 
-5. AXI4 Features Verified
+**5. AXI4 Features Verified**
 5.1 Write Transactions
-The write address channel includes:
-•	AWID
-•	AWADDR
-•	AWLEN
-•	AWSIZE
-•	AWBURST
-•	AWLOCK
-•	AWCACHE
-•	AWPROT
-•	AWQOS
-•	AWREGION
-•	AWUSER
-The write data channel includes:
-•	WDATA
-•	WSTRB
-•	WLAST
-The write response channel includes:
-•	BID
-•	BRESP
-•	BUSER
+    The write address channel includes:
+    •	AWID
+    •	AWADDR
+    •	AWLEN
+    •	AWSIZE
+    •	AWBURST
+    •	AWLOCK
+    •	AWCACHE
+    •	AWPROT
+    •	AWQOS
+    •	AWREGION
+    •	AWUSER
+    The write data channel includes:
+    •	WDATA
+    •	WSTRB
+    •	WLAST
+    The write response channel includes:
+    •	BID
+    •	BRESP
+    •	BUSER
 5.2 Read Transactions
-The read address channel includes:
-•	ARID
-•	ARADDR
-•	ARLEN
-•	ARSIZE
-•	ARBURST
-•	ARLOCK
-•	ARCACHE
-•	ARPROT
-•	ARQOS
-•	ARREGION
-•	ARUSER
-The read data channel includes:
-•	RDATA
-•	RRESP
-•	RLAST
-•	RID
-•	RUSER
+    The read address channel includes:
+    •	ARID
+    •	ARADDR
+    •	ARLEN
+    •	ARSIZE
+    •	ARBURST
+    •	ARLOCK
+    •	ARCACHE
+    •	ARPROT
+    •	ARQOS
+    •	ARREGION
+    •	ARUSER
+    The read data channel includes:
+    •	RDATA
+    •	RRESP
+    •	RLAST
+    •	RID
+    •	RUSER
 
 
-6. Burst Verification
+**6. Burst Verification**
 6.1 INCR Burst
-For an INCR burst, the next address is calculated by adding the number of bytes per transfer to the current address.
-Next Address = Current Address + Bytes per Transfer
-Bytes per beat = 2^AWSIZE
-Example:
-AWADDR  = 0x100
-AWLEN   = 9
-AWSIZE  = 2
-AWBURST = INCR
-AWLEN = 9 represents 10 data beats. Expected addresses are:
-Beat	Address
-Beat 0	0x100
-Beat 1	0x104
-Beat 2	0x108
-Beat 3	0x10C
-Beat 4	0x110
-Beat 5	0x114
-Beat 6	0x118
-Beat 7	0x11C
-Beat 8	0x120
-Beat 9	0x124
-WLAST must be asserted on the final write-data beat. Similarly, RLAST must be asserted on the final read-data beat.
+    For an INCR burst, the next address is calculated by adding the number of bytes per transfer to the current address.
+    Next Address = Current Address + Bytes per Transfer
+    Bytes per beat = 2^AWSIZE
+    Example:
+    AWADDR  = 0x100
+    AWLEN   = 9
+    AWSIZE  = 2
+    AWBURST = INCR
+    AWLEN = 9 represents 10 data beats. Expected addresses are:
+    Beat	Address
+    Beat 0	0x100
+    Beat 1	0x104
+    Beat 2	0x108
+    Beat 3	0x10C
+    Beat 4	0x110
+    Beat 5	0x114
+    Beat 6	0x118
+    Beat 7	0x11C
+    Beat 8	0x120
+    Beat 9	0x124
+    WLAST must be asserted on the final write-data beat. Similarly, RLAST must be asserted on the final read-data beat.
 
 
-7. UVM Verification Architecture
+**7. UVM Verification Architecture**
 +------------------------------------------------------------------------------------------+
 | AXI_TOP                                                                                  |
 |                                                                                          |
@@ -160,117 +160,117 @@ WLAST must be asserted on the final write-data beat. Similarly, RLAST must be as
 +------------------------------------------------------------------------------------------+
 
 
-8. UVM Components
+**8. UVM Components**
 8.1 Sequence Item
 The sequence item contains AXI transaction-level information such as address, ID, burst length, transfer size, burst type, write data, write strobes, and response information.
 
-8.2 Sequence
+**8.2 Sequence**
 The sequence generates AXI transactions and sends them to the sequencer.
-Example:
-Address  : 0x100
-Length   : 9
-Size     : 2
-Burst    : INCR
-Data     : 10 beats
+    Example:
+    Address  : 0x100
+    Length   : 9
+    Size     : 2
+    Burst    : INCR
+    Data     : 10 beats
 
-8.3 Sequencer
+**8.3 Sequencer**
 The sequencer transfers sequence items from the sequence to the driver.
 
-8.4 Driver
+**8.4 Driver**
 The AXI driver converts transaction-level information into pin-level AXI signals. The driver handles AW, W, B, AR, and R channels and waits for the corresponding READY signals while maintaining VALID until the handshake occurs.
 do begin
     @(posedge vif.ACLK);
 end while (!vif.AWREADY);
 
-8.5 Monitor
+**8.5 Monitor**
 The monitor observes AXI bus activity without driving signals. It captures address transactions, write/read data, responses, burst information, and handshake events.
 
-8.6 Scoreboard
+**8.6 Scoreboard**
 The scoreboard compares expected transactions against actual transactions.
-•	Write data correctness
-•	Read data correctness
-•	Address progression
-•	Burst length
-•	Response codes
-•	Transaction completion
-•	Data integrity
+    •	Write data correctness
+    •	Read data correctness
+    •	Address progression
+    •	Burst length
+    •	Response codes
+    •	Transaction completion
+    •	Data integrity
 
-8.7 Agent
-+----------------------+
-|      AXI Agent       |
-|                      |
-|  +--------------+    |
-|  |  Sequencer   |    |
-|  +--------------+    |
-|                      |
-|  +--------------+    |
-|  |   Driver     |    |
-|  +--------------+    |
-|                      |
-|  +--------------+    |
-|  |   Monitor    |    |
-|  +--------------+    |
-+----------------------+
+**8.7 Agent**
+            +----------------------+
+            |      AXI Agent       |
+            |                      |
+            |  +--------------+    |
+            |  |  Sequencer   |    |
+            |  +--------------+    |
+            |                      |
+            |  +--------------+    |
+            |  |   Driver     |    |
+            |  +--------------+    |
+            |                      |
+            |  +--------------+    |
+            |  |   Monitor    |    |
+            |  +--------------+    |
+            +----------------------+
 
-8.8 Environment
+**8.8 Environment**
 The environment connects the AXI agent and scoreboard to form the complete verification environment.
 
 
-9. Write Transaction Flow
-1. Reset
-   ↓
-2. AWVALID asserted
-   ↓
-3. AWREADY asserted by DUT
-   ↓
-4. AWVALID && AWREADY
-   ↓
-5. Write address accepted
-   ↓
-6. WVALID asserted
-   ↓
-7. WREADY asserted by DUT
-   ↓
-8. WVALID && WREADY
-   ↓
-9. Write data transferred
-   ↓
-10. WLAST on final beat
-   ↓
-11. BVALID asserted
-   ↓
-12. BREADY asserted
-   ↓
-13. BVALID && BREADY
-   ↓
-14. Write transaction complete
+**9. Write Transaction Flow**
+    1. Reset
+       ↓
+    2. AWVALID asserted
+       ↓
+    3. AWREADY asserted by DUT
+       ↓
+    4. AWVALID && AWREADY
+       ↓
+    5. Write address accepted
+       ↓
+    6. WVALID asserted
+       ↓
+    7. WREADY asserted by DUT
+       ↓
+    8. WVALID && WREADY
+       ↓
+    9. Write data transferred
+       ↓
+    10. WLAST on final beat
+       ↓
+    11. BVALID asserted
+       ↓
+    12. BREADY asserted
+       ↓
+    13. BVALID && BREADY
+       ↓
+    14. Write transaction complete
 
 
-10. Read Transaction Flow
-1. Reset
-   ↓
-2. ARVALID asserted
-   ↓
-3. ARREADY asserted
-   ↓
-4. ARVALID && ARREADY
-   ↓
-5. Read address accepted
-   ↓
-6. DUT generates RVALID
-   ↓
-7. Master asserts RREADY
-   ↓
-8. RVALID && RREADY
-   ↓
-9. Read data transferred
-   ↓
-10. RLAST on final beat
-   ↓
-11. Read transaction complete
+**10. Read Transaction Flow**
+        1.Reset
+           ↓
+        2. ARVALID asserted
+           ↓
+        3. ARREADY asserted
+           ↓
+        4. ARVALID && ARREADY
+           ↓
+        5. Read address accepted
+           ↓
+        6. DUT generates RVALID
+           ↓
+        7. Master asserts RREADY
+           ↓
+        8. RVALID && RREADY
+           ↓
+        9. Read data transferred
+           ↓
+        10. RLAST on final beat
+           ↓
+        11. Read transaction complete
 
 
-11. Test Scenarios
+**11. Test Scenarios**
 Test	Description
 Basic Write Test	Single-beat write, full byte strobes, and successful BRESP.
 INCR Burst Write	10-beat INCR burst using AWADDR=0x100, AWLEN=9, AWSIZE=2.
@@ -279,21 +279,21 @@ INCR Burst Read	Address progression, multiple read beats, RLAST, and RDATA verif
 WSTRB Test	Partial-byte writes using different WSTRB combinations.
 Backpressure Test	Behavior when AWREADY, WREADY, BREADY, or RREADY is deasserted.
 
-12. Verification Tools
-•	SystemVerilog
-•	UVM
-•	QuestaSim
-•	Makefile
-•	Git / GitHub
-Primary simulator:
-QuestaSim 10.7c
+**12. Verification Tools**
+    •	SystemVerilog
+    •	UVM
+    •	QuestaSim
+    •	Makefile
+    •	Git / GitHub
+        Primary simulator:
+        QuestaSim 10.7c
 
 
-13. Simulation
-13.1 Compile
-make compile
-13.2 Run Simulation
-make run
+**13. Simulation**
+      13.1 Compile
+           make compile
+      13.2 Run Simulation
+           make run
 Alternatively, the simulation can be launched using a QuestaSim command/do-file flow. The exact command depends on the local project Makefile and QuestaSim installation.
 
 
