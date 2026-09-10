@@ -53,7 +53,47 @@ module axi_top #(
 	.AWREGION(intf.AWREGION),
 	.AWUSER(intf.AWUSER),
 	.AWVALID(intf.AWVALID),
-	.AWREADY(intf.AWREADY)
+	.AWREADY(intf.AWREADY),
+
+
+	.WDATA(intf.WDATA),
+	.WSTRB(intf.WSTRB),
+	.WLAST(intf.WLAST),
+	.WUSER(intf.WUSER),
+	.WVALID(intf.WVALID),
+	.WREADY(intf.WREADY),
+
+	.BID(intf.BID),
+	.BRESP(intf.BRESP),
+	.BUSER(intf.BUSER),
+	.BVALID(intf.BVALID),
+	.BREADY(intf.BREADY),
+
+	.ARID(intf.ARID),
+	.ARADDR(intf.ARADDR),
+	.ARLEN(intf.ARLEN),
+	.ARSIZE(intf.ARSIZE),
+	.ARBURST(intf.ARBURST),
+	.ARLOCK(intf.ARLOCK),
+	.ARCACHE(intf.ARCACHE),
+	.ARPROT(intf.ARPROT),
+	.ARQOS(intf.ARPROT),
+	.ARREGION(intf.ARREGION),
+	.ARUSER(intf.ARUSER),
+	.ARVALID(intf.ARVALID),
+	.ARREADY(intf.ARREADY),
+
+
+	.RID(intf.RID),
+	.RDATA(intf.RDATA),
+	.RRESP(intf.RRESP),
+	.RLAST(intf.RLAST),
+	.RUSER(intf.RUSER),
+	.RVALID(intf.RVALID),
+	.RREADY(intf.RREADY)
+
+
+
 
 
      
@@ -80,9 +120,3 @@ module axi_top #(
     end
 
 endmodule
-
-
-
-
-
-

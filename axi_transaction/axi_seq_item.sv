@@ -24,7 +24,7 @@ class axi_seq_item extends uvm_sequence_item;
    	rand bit                      AWVALID;
    	     bit                      AWREADY;
 
-    	rand bit [`DATA_WIDTH-1:0]     WDATA;
+    	rand bit [`DATA_WIDTH-1:0]     WDATA [];
     	rand bit [`DATA_WIDTH/8-1:0]   WSTRB;
     	rand bit                      WLAST;
     	rand bit [`USER_WIDTH-1:0]     WUSER;
@@ -69,6 +69,40 @@ class axi_seq_item extends uvm_sequence_item;
 	function new(string name="axi_seq_item");
 		super.new(name);
 	endfunction
+
+
+constraint c1 {
+    soft WDATA.size() == (AWLEN + 1);
+}
+
+constraint c2 {
+    AWADDR inside {[32'h0000_0000 : 32'h0000_FFFF]};
+}
+
+constraint c3 {
+    AWID == ARID;
+}
+
+constraint c4 {
+    AWLEN  == ARLEN;
+    AWSIZE == ARSIZE;
+    AWADDR == ARADDR;
+}
+
+constraint c5 {
+    AWSIZE inside {[0:2]};
+    ARSIZE inside {[0:2]};
+}
+
+constraint c6 {
+    AWBURST == 2'b01;
+    ARBURST == 2'b01;
+}
+
+constraint c7 {
+    AWLOCK == 1'b0;
+    ARLOCK == 1'b0;
+}
 
 
 endclass
