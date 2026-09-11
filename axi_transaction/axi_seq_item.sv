@@ -52,9 +52,9 @@ class axi_seq_item extends uvm_sequence_item;
              bit                      ARREADY;
 
              bit [`ID_WIDTH-1:0]       RID;
-             bit [`DATA_WIDTH-1:0]     RDATA;
-             bit [1:0]                RRESP;
-             bit                      RLAST;
+             bit [`DATA_WIDTH-1:0]     RDATA [];
+             bit [1:0]                RRESP [];
+             bit                      RLAST [];
              bit [`USER_WIDTH-1:0]     RUSER;
              bit                      RVALID;
         rand bit                      RREADY;
