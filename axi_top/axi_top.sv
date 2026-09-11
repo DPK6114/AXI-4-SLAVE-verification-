@@ -49,7 +49,7 @@ module axi_top #(
 	.AWLOCK(intf.AWLOCK),
 	.AWCACHE(intf.AWCACHE),
 	.AWPROT(intf.AWPROT),
-	.AWQOS(intf.AWPROT),
+	.AWQOS(intf.AWQOS),
 	.AWREGION(intf.AWREGION),
 	.AWUSER(intf.AWUSER),
 	.AWVALID(intf.AWVALID),

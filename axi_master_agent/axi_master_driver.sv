@@ -93,13 +93,8 @@ class axi_master_driver extends uvm_driver #(axi_seq_item);
     		// Handshake completed
     		vif.AWVALID <= 1'b0;
 
-    		`uvm_info("AW_DRIVER",
-			$sformatf("AWVALID=%0b AWREADY=%0b ADDR=%h LEN=%0d AWSIZE=%0d",
-			vif.AWVALID,
-			vif.AWREADY,
-			vif.AWADDR,
-			vif.AWLEN,
-			vif.AWSIZE),
+    		`uvm_info("MASTER_DRIVER_FOR_AW_CHANNEL",
+			$sformatf("AWVALID=%0d AWREADY=%0d AWID=%0d AWADDR=%0d AWLEN=%0d AWSIZE=%0d AWBURST=%0d AWLOCK=%0d AWCACHE=%0d AWPROT=%0d  AWQOS=%0d  AWREGION=%0d  AWUSER=%0d",vif.AWVALID, vif.AWREADY, vif.AWID,vif.AWADDR, vif.AWLEN, vif.AWSIZE, vif.AWBURST, vif.AWLOCK, vif.AWCACHE, vif.AWPROT, vif.AWQOS, vif.AWREGION, vif.AWUSER),
 			UVM_MEDIUM)
 	endtask
 	
