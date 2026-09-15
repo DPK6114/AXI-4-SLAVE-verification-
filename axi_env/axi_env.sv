@@ -23,7 +23,8 @@ class axi_env extends uvm_env;
 
 	function void connect_phase(uvm_phase phase);
 		super.connect_phase(phase);
-
+		m_agent.m_mon1.mon1_port.connect(scb.master_export);
+                s_agent.s_mon1.mon_port.connect(scb.slave_export);
 	endfunction
 
 

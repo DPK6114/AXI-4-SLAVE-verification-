@@ -25,8 +25,8 @@ class axi_seq_item extends uvm_sequence_item;
    	     bit                      AWREADY;
 
     	rand bit [`DATA_WIDTH-1:0]     WDATA [];
-    	rand bit [`DATA_WIDTH/8-1:0]   WSTRB;
-    	rand bit                      WLAST;
+    	rand bit [`DATA_WIDTH/8-1:0]   WSTRB [];
+    	rand bit                      WLAST [];
     	rand bit [`USER_WIDTH-1:0]     WUSER;
     	rand bit                      WVALID;
     	     bit                      WREADY;
