@@ -1,11 +1,10 @@
-**1. Project Overview**
+1. Project Overview
 This project implements and verifies a parameterized AMBA AXI4 Slave using SystemVerilog and UVM. The primary objective is to develop a reusable UVM-based verification environment and verify AXI4 read and write transactions, burst transfers, byte strobes, response generation, and AXI VALID/READY handshaking.
 
-
-**2. Project Objectives**
-    •	Implement a parameterized AXI4 Slave RTL.
-    •	Develop a reusable SystemVerilog AXI4 interface.
-    •	Develop an AXI4 UVM Master Driver.
+Project Objectives
+Implement a parameterized AXI4 Slave RTL.
+Develop a reusable SystemVerilog AXI4 interface.
+develop an AXI4 UVM Master Driver.
     •	Generate AXI4 read and write transactions.
     •	Verify AXI4 VALID/READY handshaking.
     •	Verify burst transactions.
