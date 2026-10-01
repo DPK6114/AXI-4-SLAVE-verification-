@@ -1,20 +1,45 @@
-1. Project Overview
-This project implements and verifies a parameterized AMBA AXI4 Slave using SystemVerilog and UVM. The primary objective is to develop a reusable UVM-based verification environment and verify AXI4 read and write transactions, burst transfers, byte strobes, response generation, and AXI VALID/READY handshaking.
+# AXI4 Slave Verification
 
-Project Objectives
-Implement a parameterized AXI4 Slave RTL.
-Develop a reusable SystemVerilog AXI4 interface.
-develop an AXI4 UVM Master Driver.
-    •	Generate AXI4 read and write transactions.
-    •	Verify AXI4 VALID/READY handshaking.
-    •	Verify burst transactions.
-    •	Verify INCR burst operation.
-    •	Verify different burst lengths and transfer sizes.
-    •	Verify WSTRB byte-enable functionality.
-    •	Verify write and read responses.
-    •	Verify WLAST and RLAST behavior.
-    •	Develop a self-checking UVM verification environment.
-    •	Debug AXI protocol behavior using QuestaSim waveforms.
+A SystemVerilog / UVM-based verification environment built to verify the functionality, handshake protocols, and response mechanisms of an **AXI4 Slave** module.
+
+---
+
+## Project Overview
+
+This repository contains the complete verification environment for an AXI-4 Slave memory/register interface. It validates independent read/write channels, burst transfers, backpressure scenarios, and protocol compliance under random stimulus.
+
+### Supported Features
+- **Protocol Standard**: ARM AMBA AXI4 Specification
+- **Burst Types Supported**: `INCR`, `WRAP`, `FIXED`
+- **Data & Address Widths**: Parameterized data (32/64-bit) and address buses
+- **Handshake Verification**: Validates `VALID` / `READY` timing and backpressure
+- **Out-of-Order Execution / Interleaving**: Response tracking and ID matching
+- **Verification Methodology**: SystemVerilog Class-Based Testbench (Constrained Random & Coverage Driven Verification)
+
+---
+
+##  Verification Architecture
+
+The testbench is structured with standard verification components:
+
+```text
+                  +-------------------------------------------------+
+                  |                 Environment                     |
+                  |                                                 |
++----------+      |  +------------+   +-----------+   +----------+  |
+|          |      |  |            |   |           |   |          |  |
+| Generator|----->|  |   Driver   |-->| Interface |-->|  DUT     |  |
+| (Tester) |      |  |            |   |           |   | (AXI4    |  |
++----------+      |  +------------+   +-----------+   |  Slave)  |  |
+                  |                        |          |          |  |
+                  |                   +----v----+     +----------+  |
+                  |                   | Monitor |                   |
+                  |                   +----+----+                   |
+                  |                        |                        |
+                  |                  +-----v------+                 |
+                  |                  | Scoreboard |                 |
+                  |                  +------------+                 |
+                  +-------------------------------------------------+
 
 
 **3. AXI4 Architecture**
